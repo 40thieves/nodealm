@@ -88,8 +88,6 @@ describe('ALM', function() {
 		});
 
 		it('should have an option for requesting history of altmetrics', function(done) {
-			this.timeout(20000);
-
 			var options = {
 				info: 'history'
 			};
@@ -104,14 +102,25 @@ describe('ALM', function() {
 		});
 
 		it('should have an option for requesting altmetric events', function(done) {
-			this.timeout(20000);
-
 			var options = {
 				info: 'event'
 			};
 
 			alm.getAlm('10.1371%2Fjournal.pbio.1000242', options, function(err, result) {
 				expect(result).to.have.deep.property('[0].sources[0].events').that.is.a('array');
+				done();
+			});
+		});
+
+		it('should have an option for setting days (after publication) option', function(done) {
+			var options = {
+				days: '30',
+				info: 'history'
+			};
+
+			alm.getAlm('10.1371%2Fjournal.pbio.1000242', options, function(err, result) {
+				expect(result).to.have.deep.property('[0].sources[1].histories').that.is.a('array');
+				expect(result).to.have.deep.property('[0].sources[1].histories').to.have.length(2);
 				done();
 			});
 		});
