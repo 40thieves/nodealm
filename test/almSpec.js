@@ -17,37 +17,47 @@ describe('ALM', function() {
 	describe('#getAlm()', function() {
 		it('should take a DOI as the first argument', function() {
 			alm.getAlm('10.1371%2Fjournal.pbio.1000242', function(err, result) {
-				expect(result).to.be.a('object');
+				expect(result).to.be.a('array');
 			});
 		});
 
 		it('should take an array of DOIs as the first argument', function() {
 			alm.getAlm(['10.1371%2Fjournal.pbio.1000242', '10.1371%2Fjournal.pone.0035869'], function(err, result) {
-				expect(result).to.be.a('object');
+				expect(result).to.be.a('array');
 			});
 		});
 
 		it('should return an object containing the article\'s metadata', function(done) {
+			var expectedKeys = [
+				'doi',
+				'title',
+				'url',
+				'mendeley',
+				'pmid',
+				'pmcid',
+				'publication_date'
+			];
+
 			alm.getAlm('10.1371%2Fjournal.pbio.1000242', function(err, result) {
-				expect(result).to.be.a('object');
+				expect(result).to.be.a('array');
+				expect(result[0]).to.include.keys(expectedKeys);
+
 				done();
 			});
 
-			// var expected = {
-			// 	"doi": "10.1371/journal.pbio.1000242",
-			// 	"title": "Article-Level Metrics and the Evolution of Scientific Impact",
-			// 	"url": "http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.1000242",
-			// 	"mendeley": "09fcb4ac-0a45-3f4f-ae01-e8405b7b045b",
-			// 	"pmid": "19918558",
-			// 	"pmcid": "2768794",
-			// 	"publication_date": "2009-11-17T08:00:00Z",
-			// 	"update_date": "2014-01-08T13:17:04Z",
-			// };
 		});
 
-		// it('should return an object containing aggregated altmetrics for the article', function() {
+		it('should return an object containing aggregated altmetrics for the article', function(done) {
+			alm.getAlm('10.1371%2Fjournal.pbio.1000242', function(err, result) {
+				expect(result).to.be.a('array');
+				expect(result).to.have.deep.property('[0].views');
+				expect(result).to.have.deep.property('[0].shares');
+				expect(result).to.have.deep.property('[0].bookmarks');
+				expect(result).to.have.deep.property('[0].citations');
 
-		// });
+				done();
+			});
+		});
 
 		// it('should return an array of sources with more detailed altmetric data for the article', function() {
 
@@ -67,6 +77,6 @@ describe('ALM', function() {
 
 		// Time options: days/months after publication, stats at end of given year
 		// Raw output: json/xml/csv
-			// The media type is set in the header, e.g. "Accept: application/json". Media type negotiation via file extension (e.g. ".json") is not supported
+			// The media type is set in the header, e.g. 'Accept: application/json'. Media type negotiation via file extension (e.g. '.json') is not supported
 	});
 });
