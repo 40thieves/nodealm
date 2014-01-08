@@ -125,6 +125,19 @@ describe('ALM', function() {
 			});
 		});
 
+		it('should have an option for setting days (after publication) option', function(done) {
+			var options = {
+				months: 2,
+				info: 'history'
+			};
+
+			alm.getAlm('10.1371%2Fjournal.pbio.1000242', options, function(err, result) {
+				expect(result).to.have.deep.property('[0].sources[1].histories').that.is.a('array');
+				expect(result).to.have.deep.property('[0].sources[1].histories').to.have.length(2);
+				done();
+			});
+		});
+
 		// Time options: days/months after publication, stats at end of given year
 		// Raw output: json/xml/csv
 			// The media type is set in the header, e.g. 'Accept: application/json'. Media type negotiation via file extension (e.g. '.json') is not supported
