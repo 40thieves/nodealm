@@ -103,9 +103,18 @@ describe('ALM', function() {
 			});
 		});
 
-		// it('should have an option for requesting altmetric events', function() {
+		it('should have an option for requesting altmetric events', function(done) {
+			this.timeout(20000);
 
-		// });
+			var options = {
+				info: 'event'
+			};
+
+			alm.getAlm('10.1371%2Fjournal.pbio.1000242', options, function(err, result) {
+				expect(result).to.have.deep.property('[0].sources[0].events').that.is.a('array');
+				done();
+			});
+		});
 
 		// Time options: days/months after publication, stats at end of given year
 		// Raw output: json/xml/csv
