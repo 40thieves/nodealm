@@ -15,6 +15,8 @@ describe('ALM', function() {
 	});
 
 	describe('#getAlm()', function() {
+		this.timeout(10000);
+
 		it('should take a DOI as the first argument', function() {
 			alm.getAlm('10.1371%2Fjournal.pbio.1000242', function(err, result) {
 				expect(result).to.be.a('array');
@@ -74,13 +76,32 @@ describe('ALM', function() {
 			});
 		});
 
-		// it('should take an object of options as the second argument', function() {
+		it('should take an object of options as the second argument', function(done) {
+			var options = {
+				info: 'summary'
+			};
 
-		// });
+			alm.getAlm('10.1371%2Fjournal.pbio.1000242', options, function(err, result) {
+				expect(result).to.exist;
+				done();
+			});
+		});
 
-		// it('should have an option for requesting history of altmetrics', function() {
+		it('should have an option for requesting history of altmetrics', function(done) {
+			this.timeout(20000);
 
-		// });
+			var options = {
+				info: 'history'
+			};
+
+			alm.getAlm('10.1371%2Fjournal.pbio.1000242', options, function(err, result) {
+				expect(result).to.have.deep.property('[0].sources[0].histories');
+				expect(result).to.have.deep.property('[0].sources[0].by_day');
+				expect(result).to.have.deep.property('[0].sources[0].by_month');
+				expect(result).to.have.deep.property('[0].sources[0].by_year');
+				done();
+			});
+		});
 
 		// it('should have an option for requesting altmetric events', function() {
 
