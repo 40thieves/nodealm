@@ -1,6 +1,6 @@
 var expect = require('chai').expect
 ,	config = require('../lib/config')()
-,	alm = require('../lib/nodealm')
+,	alm = require('../lib/nodeAlm')
 ;
 
 describe('ALM', function() {
