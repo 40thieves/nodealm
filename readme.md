@@ -2,7 +2,7 @@
 
 ### Node wrapper for the PLOS ALM API
 
-A Node port of Cameron Neylon's [`pyalm`](http://cameronneylon.github.io/pyalm/) library. A wrapper for the Public Library of Science (PLOS) [Article Level Metrics (ALM) API](http://alm.plos.org/docs/API).
+A Node port of [Cameron Neylon's](http://cameronneylon.net/) [`pyalm`](http://cameronneylon.github.io/pyalm/) library. A wrapper for the Public Library of Science (PLOS) [Article Level Metrics (ALM) API](http://alm.plos.org/docs/API).
 
 ```javascript
 var alm = require('nodealm');
@@ -85,6 +85,7 @@ Tests are provided with [`mocha`](http://visionmedia.github.io/mocha/). Run the 
 
 #### TODO
 
+* Only return array if multiple articles found
 * Sources array should use source name as key, not numerical key
 * Filter null values in response?
 * (Possibly) Raw output: json/xml/csv
