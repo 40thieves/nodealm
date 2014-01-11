@@ -18,12 +18,12 @@ options = tags.parse(process.argv, tagDefaults, tagReplacements);
 
 alm.getAlm(options.ids, { info: 'summary' }, function(err, result) {
 	console.log('Metadata');
-	console.log('DOI:', result[0].doi);
-	console.log('Title: ', result[0].title);
-	console.log('URL: ', result[0].url);
+	console.log('DOI:', result.doi);
+	console.log('Title: ', result.title);
+	console.log('URL: ', result.url);
 	console.log('\nSummary altmetrics');
-	console.log('Views: ', result[0].views);
-	console.log('Shares: ', result[0].shares);
-	console.log('Bookmarks: ', result[0].bookmarks);
-	console.log('Citations: ', result[0].citations);
+	console.log('Views: ', result.views);
+	console.log('Shares: ', result.shares);
+	console.log('Bookmarks: ', result.bookmarks);
+	console.log('Citations: ', result.citations);
 });
