@@ -152,4 +152,31 @@ describe('ALM', function() {
 			});
 		});
 	});
+
+	describe('#getAlm() error handling', function() {
+		this.timeout(10000);
+
+		it('should return error if DOI not provided', function(done) {
+			alm.getAlm('should_return_an_error', function(err, result) {
+				expect(result).to.not.exist;
+				expect(err).to.exist;
+
+				done();
+			});
+		});
+
+		it('should return useful error response if DOI not provided', function(done) {
+			alm.getAlm('should_return_an_error', function(err, result) {
+				var expected = {
+					statusCode: 404,
+					statusResponse: 'Article not found.',
+					body: { error: 'Article not found.' }
+				};
+
+				expect(err).to.deep.equal(expected);
+
+				done();
+			});
+		});
+	});
 });
