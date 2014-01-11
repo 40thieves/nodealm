@@ -146,14 +146,6 @@ Tests are provided with [`mocha`](http://visionmedia.github.io/mocha/). Run the 
 
 (Please note that some tests will hit the API, and so will take longer to complete)
 
-#### TODO
-
-* Only return array if multiple articles found
-* Sources array should use source name as key, not numerical key
-* Filter null values in response?
-* (Possibly) Raw output: json/xml/csv
-	* The media type is set in the header, e.g. 'Accept: application/json'. Media type negotiation via file extension (e.g. '.json') is not supported
-
 ### License
 
 (The MIT License)
