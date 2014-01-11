@@ -10,7 +10,7 @@ describe('ALM', function() {
 		});
 
 		it('should load api key from config', function() {
-			expect(alm.apiKey).to.equal('cjt9z8w52sFZN31sC3Gw');
+			expect(alm.apiKey).to.equal('YOUR_API_KEY_GOES_HERE');
 		});
 	});
 
