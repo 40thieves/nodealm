@@ -75,6 +75,65 @@ result[0] = {
 }
 ```
 
+### Advanced usage
+
+Multiple articles can be requested by providing and array of DOIs
+
+```javascript
+alm.getAlm(['10.1371/journal.pbio.1000242', '10.1371/journal.pone.0035869'], function(err, result) {
+	// ...
+});
+```
+
+Additional options are provided through the options object
+
+```javascript
+var options = {
+	info: 'history',
+	days: 30
+};
+
+alm.getAlm('10.1371/journal.pbio.1000242', options, callback);
+```
+
+#### Available options
+
+__info__
+Controls the amount of detail provided in the response
+
+| Value    | Description                                                        |
+| -------- | ------------------------------------------------------------------ |
+| summary  | Only article metadata (DOI, title, PubMed IDs) and summary metrics |
+| detail   | All historical data and all raw data sent by the source            |
+| event    | All raw data provided by the source                                |
+| history  | All historical data, includes metrics by day, month and year       |
+
+__days__
+Shows metrics after a given time in days of publication. So, for example, if set to 30, the metrics in the response will be calculated at the time 30 days after the article was published.
+
+__months__
+Similar to the `days` option, but calculates using months instead of days.
+
+__year__
+Similar to the `days` and `months` options but calculates the metrics at the end of the given year. For example, if set to 2012 the metrics will be calculated up to the end of 2012.
+
+### Command line usage
+
+(Please note, this feature isn't well fleshed out yet). To use with the command line, use the command
+
+	node cli.js DOI_HERE
+
+To request multiple DOIs, provide a comma-separated list of DOIs.
+
+#### Command line options
+
+| Flag       | Short flag    |
+| ---------- | ------------- |
+| `--info`   | `-i`          |
+| `--days`   | `-d`          |
+| `--months` | `-m`          |
+| `--year`   | `-y`          |
+
 ### Running tests
 
 Tests are provided with [`mocha`](http://visionmedia.github.io/mocha/). Run the tests with
