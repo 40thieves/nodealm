@@ -25,7 +25,7 @@ alm.getAlm('10.1371/journal.pbio.1000242', function(err, result) {
 
 ### Summary level information - Example response
 
-```
+```javascript
 // DOI 10.1371/journal.pone.0036240
 result[0] = {
 	doi: '10.1371/journal.pone.0036240',
@@ -51,7 +51,7 @@ result[0] = {
 
 The response also returns an array of ALM data sources with more detailed information.
 
-```
+```javascript
 // DOI 10.1371/journal.pone.0036240
 result[0] = {
 	...,
