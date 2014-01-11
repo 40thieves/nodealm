@@ -70,9 +70,9 @@ describe('ALM', function() {
 			];
 
 			alm.getAlm('10.1371/journal.pbio.1000242', function(err, result) {
-				expect(result).to.have.deep.property('sources').that.is.a('array');
-				expect(result).to.have.deep.property('sources[0]').that.include.keys(expectedKeys);
-				expect(result).to.have.deep.property('sources[0].metrics').to.be.a('object');
+				expect(result).to.have.deep.property('sources').that.is.a('object');
+				expect(result).to.have.deep.property('sources.twitter').that.include.keys(expectedKeys);
+				expect(result).to.have.deep.property('sources.twitter.metrics').to.be.a('object');
 
 				done();
 			});
@@ -95,10 +95,10 @@ describe('ALM', function() {
 			};
 
 			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
-				expect(result).to.have.deep.property('sources[0].histories');
-				expect(result).to.have.deep.property('sources[0].by_day');
-				expect(result).to.have.deep.property('sources[0].by_month');
-				expect(result).to.have.deep.property('sources[0].by_year');
+				expect(result).to.have.deep.property('sources.twitter.histories');
+				expect(result).to.have.deep.property('sources.twitter.by_day');
+				expect(result).to.have.deep.property('sources.twitter.by_month');
+				expect(result).to.have.deep.property('sources.twitter.by_year');
 				done();
 			});
 		});
@@ -109,7 +109,7 @@ describe('ALM', function() {
 			};
 
 			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
-				expect(result).to.have.deep.property('sources[0].events').that.is.a('array');
+				expect(result).to.have.deep.property('sources.twitter.events').that.is.a('array');
 				done();
 			});
 		});
@@ -121,34 +121,34 @@ describe('ALM', function() {
 			};
 
 			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
-				expect(result).to.have.deep.property('sources[1].histories').that.is.a('array');
-				expect(result).to.have.deep.property('sources[1].histories').to.have.length(2);
+				expect(result).to.have.deep.property('sources.citeulike.histories').that.is.a('array');
+				expect(result).to.have.deep.property('sources.citeulike.histories').to.have.length(2);
 				done();
 			});
 		});
 
-		it('should have an option for setting days (after publication) option', function(done) {
+		it('should have an option for setting months (after publication) option', function(done) {
 			var options = {
 				months: 2,
 				info: 'history'
 			};
 
 			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
-				expect(result).to.have.deep.property('sources[1].histories').that.is.a('array');
-				expect(result).to.have.deep.property('sources[1].histories').to.have.length(2);
+				expect(result).to.have.deep.property('sources.citeulike.histories').that.is.a('array');
+				expect(result).to.have.deep.property('sources.citeulike.histories').to.have.length(2);
 				done();
 			});
 		});
 
-		it('should have an option for setting days (after publication) option', function(done) {
+		it('should have an option for setting specific year to calculate metrics', function(done) {
 			var options = {
 				year: 2010,
 				info: 'history'
 			};
 
 			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
-				expect(result).to.have.deep.property('sources[1].histories').that.is.a('array');
-				expect(result).to.have.deep.property('sources[1].histories').to.have.length(14);
+				expect(result).to.have.deep.property('sources.citeulike.histories').that.is.a('array');
+				expect(result).to.have.deep.property('sources.citeulike.histories').to.have.length(14);
 				done();
 			});
 		});
