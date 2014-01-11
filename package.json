@@ -1,0 +1,35 @@
+{
+  "name": "nodealm",
+  "version": "0.0.1",
+  "description": "Wrapper for the Public Library of Science (PLOS) Article Level Metrics (ALM) API",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "mocha": "~1.17.0",
+    "chai": "~1.8.1",
+    "request": "~2.31.0",
+    "underscore": "~1.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/40thieves/nodealm.git"
+  },
+  "keywords": [
+    "plos",
+    "api",
+    "alm",
+    "altmetrics"
+  ],
+  "author": "Ali Smith <alasdairsmith100@gmail.com> (http://alasdairsmith.org.uk)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/40thieves/nodealm/issues"
+  },
+  "homepage": "https://github.com/40thieves/nodealm"
+}
