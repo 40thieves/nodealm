@@ -54,7 +54,45 @@ describe('Flags', function() {
 				hello: true
 			};
 
-			expect(results).to.deep.equals(expected);
+			expect(results).to.deep.equal(expected);
+		});
+
+		it('should not use flags for required options (i.e. ids)', function() {
+			var args = ['10.1371/journal.pbio.1000242', '-i=foo'];
+
+			var replacements = {
+				i: 'info'
+			};
+
+			var results = flags.parse(args, {}, replacements);
+
+			var expected = {
+				ids: [
+					'10.1371/journal.pbio.1000242'
+				],
+				info: 'foo'
+			};
+
+			expect(results).to.deep.equal(expected);
+		});
+
+		it('should produce array of ids given comma-separated list of ids', function() {
+			var args = ['10.1371/journal.pbio.1000242,10.1371/journal.pone.0035869'];
+
+			var replacements = {
+				i: 'info'
+			};
+
+			var results = flags.parse(args, {}, replacements);
+
+			var expected = {
+				ids: [
+					'10.1371/journal.pbio.1000242',
+					'10.1371/journal.pone.0035869'
+				]
+			};
+
+			expect(results).to.deep.equal(expected);
 		});
 	});
 });
