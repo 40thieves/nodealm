@@ -18,28 +18,31 @@ describe('ALM', function() {
 	describe('#getAlm()', function() {
 		this.timeout(10000);
 
-		it('should take a DOI as the first argument', function() {
-			alm.getAlm('10.1371%2Fjournal.pbio.1000242', function(err, result) {
-				expect(result).to.be.a('array');
+		it('should take a DOI as the first argument', function(done) {
+			alm.getAlm('10.1371/journal.pbio.1000242', function(err, result) {
+				expect(result).to.be.a('object');
+
+				done();
 			});
 		});
 
-		it('should take an array of DOIs as the first argument', function() {
-			alm.getAlm(['10.1371%2Fjournal.pbio.1000242', '10.1371%2Fjournal.pone.0035869'], function(err, result) {
+		it('should take an array of DOIs as the first argument', function(done) {
+			alm.getAlm(['10.1371/journal.pbio.1000242', '10.1371/journal.pone.0035869'], function(err, result) {
 				expect(result).to.be.a('array');
+
+				done();
 			});
 		});
 
 		it('should return an object containing the article\'s metadata', function(done) {
-			alm.getAlm('10.1371%2Fjournal.pbio.1000242', function(err, result) {
-				expect(result).to.be.a('array');
-				expect(result).to.have.deep.property('[0].doi');
-				expect(result).to.have.deep.property('[0].title');
-				expect(result).to.have.deep.property('[0].url');
-				expect(result).to.have.deep.property('[0].mendeley');
-				expect(result).to.have.deep.property('[0].pmid');
-				expect(result).to.have.deep.property('[0].pmcid');
-				expect(result).to.have.deep.property('[0].publication_date');
+			alm.getAlm('10.1371/journal.pbio.1000242', function(err, result) {
+				expect(result).to.have.deep.property('doi');
+				expect(result).to.have.deep.property('title');
+				expect(result).to.have.deep.property('url');
+				expect(result).to.have.deep.property('mendeley');
+				expect(result).to.have.deep.property('pmid');
+				expect(result).to.have.deep.property('pmcid');
+				expect(result).to.have.deep.property('publication_date');
 
 				done();
 			});
@@ -47,13 +50,11 @@ describe('ALM', function() {
 		});
 
 		it('should return an object containing aggregated altmetrics for the article', function(done) {
-			alm.getAlm('10.1371%2Fjournal.pbio.1000242', function(err, result) {
-				expect(result).to.be.a('array');
-
-				expect(result).to.have.deep.property('[0].views');
-				expect(result).to.have.deep.property('[0].shares');
-				expect(result).to.have.deep.property('[0].bookmarks');
-				expect(result).to.have.deep.property('[0].citations');
+			alm.getAlm('10.1371/journal.pbio.1000242', function(err, result) {
+				expect(result).to.have.deep.property('views');
+				expect(result).to.have.deep.property('shares');
+				expect(result).to.have.deep.property('bookmarks');
+				expect(result).to.have.deep.property('citations');
 
 				done();
 			});
@@ -68,10 +69,10 @@ describe('ALM', function() {
 				'update_date'
 			];
 
-			alm.getAlm('10.1371%2Fjournal.pbio.1000242', function(err, result) {
-				expect(result).to.have.deep.property('[0].sources').that.is.a('array');
-				expect(result).to.have.deep.property('[0].sources[0]').that.include.keys(expectedKeys);
-				expect(result).to.have.deep.property('[0].sources[0].metrics').to.be.a('object');
+			alm.getAlm('10.1371/journal.pbio.1000242', function(err, result) {
+				expect(result).to.have.deep.property('sources').that.is.a('array');
+				expect(result).to.have.deep.property('sources[0]').that.include.keys(expectedKeys);
+				expect(result).to.have.deep.property('sources[0].metrics').to.be.a('object');
 
 				done();
 			});
@@ -82,7 +83,7 @@ describe('ALM', function() {
 				info: 'summary'
 			};
 
-			alm.getAlm('10.1371%2Fjournal.pbio.1000242', options, function(err, result) {
+			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
 				expect(result).to.exist;
 				done();
 			});
@@ -93,11 +94,11 @@ describe('ALM', function() {
 				info: 'history'
 			};
 
-			alm.getAlm('10.1371%2Fjournal.pbio.1000242', options, function(err, result) {
-				expect(result).to.have.deep.property('[0].sources[0].histories');
-				expect(result).to.have.deep.property('[0].sources[0].by_day');
-				expect(result).to.have.deep.property('[0].sources[0].by_month');
-				expect(result).to.have.deep.property('[0].sources[0].by_year');
+			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
+				expect(result).to.have.deep.property('sources[0].histories');
+				expect(result).to.have.deep.property('sources[0].by_day');
+				expect(result).to.have.deep.property('sources[0].by_month');
+				expect(result).to.have.deep.property('sources[0].by_year');
 				done();
 			});
 		});
@@ -107,8 +108,8 @@ describe('ALM', function() {
 				info: 'event'
 			};
 
-			alm.getAlm('10.1371%2Fjournal.pbio.1000242', options, function(err, result) {
-				expect(result).to.have.deep.property('[0].sources[0].events').that.is.a('array');
+			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
+				expect(result).to.have.deep.property('sources[0].events').that.is.a('array');
 				done();
 			});
 		});
@@ -119,9 +120,9 @@ describe('ALM', function() {
 				info: 'history'
 			};
 
-			alm.getAlm('10.1371%2Fjournal.pbio.1000242', options, function(err, result) {
-				expect(result).to.have.deep.property('[0].sources[1].histories').that.is.a('array');
-				expect(result).to.have.deep.property('[0].sources[1].histories').to.have.length(2);
+			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
+				expect(result).to.have.deep.property('sources[1].histories').that.is.a('array');
+				expect(result).to.have.deep.property('sources[1].histories').to.have.length(2);
 				done();
 			});
 		});
@@ -132,9 +133,9 @@ describe('ALM', function() {
 				info: 'history'
 			};
 
-			alm.getAlm('10.1371%2Fjournal.pbio.1000242', options, function(err, result) {
-				expect(result).to.have.deep.property('[0].sources[1].histories').that.is.a('array');
-				expect(result).to.have.deep.property('[0].sources[1].histories').to.have.length(2);
+			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
+				expect(result).to.have.deep.property('sources[1].histories').that.is.a('array');
+				expect(result).to.have.deep.property('sources[1].histories').to.have.length(2);
 				done();
 			});
 		});
@@ -145,9 +146,9 @@ describe('ALM', function() {
 				info: 'history'
 			};
 
-			alm.getAlm('10.1371%2Fjournal.pbio.1000242', options, function(err, result) {
-				expect(result).to.have.deep.property('[0].sources[1].histories').that.is.a('array');
-				expect(result).to.have.deep.property('[0].sources[1].histories').to.have.length(14);
+			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
+				expect(result).to.have.deep.property('sources[1].histories').that.is.a('array');
+				expect(result).to.have.deep.property('sources[1].histories').to.have.length(14);
 				done();
 			});
 		});
