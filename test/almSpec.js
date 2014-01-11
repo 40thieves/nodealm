@@ -1,5 +1,6 @@
 var expect = require('chai').expect
 ,	config = require('../lib/config')()
+,	apiKey = require('../lib/config/apiKey')
 ,	alm = require('../lib/nodeAlm')
 ;
 
@@ -10,7 +11,7 @@ describe('ALM', function() {
 		});
 
 		it('should load api key from config', function() {
-			expect(alm.apiKey).to.equal('YOUR_API_KEY_GOES_HERE');
+			expect(alm.apiKey).to.equal(apiKey);
 		});
 	});
 
