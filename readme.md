@@ -99,6 +99,7 @@ alm.getAlm('10.1371/journal.pbio.1000242', options, callback);
 #### Available options
 
 __info__
+
 Controls the amount of detail provided in the response
 
 | Value    | Description                                                        |
@@ -109,12 +110,15 @@ Controls the amount of detail provided in the response
 | history  | All historical data, includes metrics by day, month and year       |
 
 __days__
+
 Shows metrics after a given time in days of publication. So, for example, if set to 30, the metrics in the response will be calculated at the time 30 days after the article was published.
 
 __months__
+
 Similar to the `days` option, but calculates using months instead of days.
 
 __year__
+
 Similar to the `days` and `months` options but calculates the metrics at the end of the given year. For example, if set to 2012 the metrics will be calculated up to the end of 2012.
 
 ### Command line usage
