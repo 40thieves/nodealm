@@ -3,11 +3,10 @@
 var alm = require('./lib/nodeAlm')
 ,	tags = require('./lib/flagParser')
 ,	cliConfig = require('./lib/config/cli')
-,	options
 ;
 
 // Command args parsed to get options object
-options = tags.parse(process.argv, cliConfig.flagDefaults, cliConfig.flagReplacements);
+var options = tags.parse(process.argv, cliConfig.flagDefaults, cliConfig.flagReplacements);
 
 alm.getAlm(options.ids, { info: 'summary' }, function(err, result) {
 	// Handle errors
