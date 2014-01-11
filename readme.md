@@ -8,14 +8,14 @@ A Node port of [Cameron Neylon's](http://cameronneylon.net/) [`pyalm`](http://ca
 var alm = require('nodealm');
 
 alm.getAlm('10.1371/journal.pbio.1000242', function(err, result) {
-	console.log('DOI:', result[0].doi); // Article's DOI
-	console.log('Title: ', result[0].title); // Article's title
-	console.log('URL: ', result[0].url); // Article's URL
+	console.log('DOI:', result.doi); // Article's DOI
+	console.log('Title: ', result.title); // Article's title
+	console.log('URL: ', result.url); // Article's URL
 
-	console.log('Views: ', result[0].views); // Article's total views
-	console.log('Shares: ', result[0].shares); // Article's total shares
-	console.log('Bookmarks: ', result[0].bookmarks); // Article's total bookmarks
-	console.log('Citations: ', result[0].citations); // Article's total citations
+	console.log('Views: ', result.views); // Article's total views
+	console.log('Shares: ', result.shares); // Article's total shares
+	console.log('Bookmarks: ', result.bookmarks); // Article's total bookmarks
+	console.log('Citations: ', result.citations); // Article's total citations
 });
 ```
 
@@ -27,7 +27,7 @@ alm.getAlm('10.1371/journal.pbio.1000242', function(err, result) {
 
 ```javascript
 // DOI 10.1371/journal.pone.0036240
-result[0] = {
+result = {
 	doi: '10.1371/journal.pone.0036240',
 	title: 'How Academic Biologists and Physicists View Science Outreach',
 	url: 'http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0036240',
@@ -53,10 +53,10 @@ The response also returns an array of ALM data sources with more detailed inform
 
 ```javascript
 // DOI 10.1371/journal.pone.0036240
-result[0] = {
+result = {
 	...,
-	sources: [
-		{
+	sources: {
+		twitter: {
 			name: 'twitter',
 			display_name: 'Twitter',
 			events_url: null,
@@ -70,8 +70,9 @@ result[0] = {
 				citations: null,
 				total: 136
 			}
-		}
-	]
+		},
+		...,
+	}
 }
 ```
 
@@ -80,9 +81,7 @@ result[0] = {
 Multiple articles can be requested by providing and array of DOIs
 
 ```javascript
-alm.getAlm(['10.1371/journal.pbio.1000242', '10.1371/journal.pone.0035869'], function(err, result) {
-	// ...
-});
+alm.getAlm(['10.1371/journal.pbio.1000242', '10.1371/journal.pone.0035869'], callback);
 ```
 
 Additional options are provided through the options object
