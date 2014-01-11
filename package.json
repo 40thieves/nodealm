@@ -15,7 +15,7 @@
     "chai": "~1.8.1"
   },
   "scripts": {
-    "test": "node_modules/mocha/bin/_mocha --timeout 10000 --ui bdd ./test/*.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
