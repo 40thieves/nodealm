@@ -5,9 +5,11 @@
 A Node port of [Cameron Neylon's](http://cameronneylon.net/) [`pyalm`](http://cameronneylon.github.io/pyalm/) library. A wrapper for the Public Library of Science (PLOS) [Article Level Metrics (ALM) API](http://alm.plos.org/docs/API).
 
 ```javascript
-var alm = require('nodealm');
+var Alm = require('nodealm');
 
-alm.getAlm('10.1371/journal.pbio.1000242', function(err, result) {
+var alm = new Alm('10.1371/journal.pbio.1000242');
+
+alm.on('success', function(result) {
 	console.log('DOI:', result.doi); // Article's DOI
 	console.log('Title: ', result.title); // Article's title
 	console.log('URL: ', result.url); // Article's URL
@@ -17,6 +19,8 @@ alm.getAlm('10.1371/journal.pbio.1000242', function(err, result) {
 	console.log('Bookmarks: ', result.bookmarks); // Article's total bookmarks
 	console.log('Citations: ', result.citations); // Article's total citations
 });
+
+alm.fetch();
 ```
 
 ### Installation
@@ -81,7 +85,7 @@ result = {
 Multiple articles can be requested by providing and array of DOIs
 
 ```javascript
-alm.getAlm(['10.1371/journal.pbio.1000242', '10.1371/journal.pone.0035869'], callback);
+var alm = new Alm(['10.1371/journal.pbio.1000242', '10.1371/journal.pone.0035869']);
 ```
 
 Additional options are provided through the options object
@@ -108,6 +112,10 @@ Controls the amount of detail provided in the response
 | event    | All raw data provided by the source                                |
 | history  | All historical data, includes metrics by day, month and year       |
 
+__source__
+
+Filter the list of sources returned in response. A list of sources is available [here](http://alm.plos.org/sources).
+
 __days__
 
 Shows metrics after a given time in days of publication. So, for example, if set to 30, the metrics in the response will be calculated at the time 30 days after the article was published.
@@ -128,22 +136,13 @@ Similar to the `days` and `months` options but calculates the metrics at the end
 
 To request multiple DOIs, provide a comma-separated list of DOIs.
 
-#### Command line options
-
-| Flag       | Short flag    |
-| ---------- | ------------- |
-| `--info`   | `-i`          |
-| `--days`   | `-d`          |
-| `--months` | `-m`          |
-| `--year`   | `-y`          |
-
 ### Running tests
 
 Tests are provided with [`mocha`](http://visionmedia.github.io/mocha/). Run the tests with
 
 	npm test
 
-(Please note that some tests will hit the API, and so will take longer to complete)
+(Please note that some tests will hit the API, and so will take longer to complete. This may change if/when I start mocking the API.)
 
 ### License
 
