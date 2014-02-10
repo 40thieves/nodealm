@@ -1,6 +1,6 @@
 var expect = require('chai').expect
 ,	config = require('../lib/config')()
-,	search = require('../lib/nodeAlm2')
+,	search = require('../lib/nodeAlm')
 
 ,	apiKey = require('../lib/config/apiKey')
 ;

@@ -1,6 +1,6 @@
 /* jshint expr: true */
 var expect = require('chai').expect
-,	Alm = require('../lib/nodeAlm2')
+,	Alm = require('../lib/nodeAlm')
 ;
 
 describe('ALM', function() {
