@@ -1,41 +1,40 @@
+/* jshint expr: true */
 var expect = require('chai').expect
-,	config = require('../lib/config')()
-,	apiKey = require('../lib/config/apiKey')
-,	alm = require('../lib/nodeAlm')
+,	Alm = require('../lib/nodeAlm2')
 ;
 
 describe('ALM', function() {
-	describe('setup', function() {
-		it('should load development config', function() {
-			expect(config.mode).to.equal('development');
-		});
-
-		it('should load api key from config', function() {
-			expect(alm.apiKey).to.equal(apiKey);
-		});
-	});
-
-	describe('#getAlm()', function() {
+	describe('General fetch', function() {
 		this.timeout(10000);
 
 		it('should take a DOI as the first argument', function(done) {
-			alm.getAlm('10.1371/journal.pbio.1000242', function(err, result) {
-				expect(result).to.be.a('object');
+			var alm = new Alm('10.1371/journal.pbio.1000242');
+
+			alm.on('success', function(result) {
+				expect(result).to.exist;
 
 				done();
 			});
+
+			alm.fetch();
 		});
 
 		it('should take an array of DOIs as the first argument', function(done) {
-			alm.getAlm(['10.1371/journal.pbio.1000242', '10.1371/journal.pone.0035869'], function(err, result) {
+			var alm = new Alm(['10.1371/journal.pbio.1000242', '10.1371/journal.pone.0035869']);
+
+			alm.on('success', function(result) {
 				expect(result).to.be.a('array');
 
 				done();
 			});
+
+			alm.fetch();
 		});
 
 		it('should return an object containing the article\'s metadata', function(done) {
-			alm.getAlm('10.1371/journal.pbio.1000242', function(err, result) {
+			var alm = new Alm('10.1371/journal.pbio.1000242');
+
+			alm.on('success', function(result) {
 				expect(result).to.have.deep.property('doi');
 				expect(result).to.have.deep.property('title');
 				expect(result).to.have.deep.property('url');
@@ -47,10 +46,13 @@ describe('ALM', function() {
 				done();
 			});
 
+			alm.fetch();
 		});
 
 		it('should return an object containing aggregated altmetrics for the article', function(done) {
-			alm.getAlm('10.1371/journal.pbio.1000242', function(err, result) {
+			var alm = new Alm('10.1371/journal.pbio.1000242');
+
+			alm.on('success', function(result) {
 				expect(result).to.have.deep.property('views');
 				expect(result).to.have.deep.property('shares');
 				expect(result).to.have.deep.property('bookmarks');
@@ -58,6 +60,8 @@ describe('ALM', function() {
 
 				done();
 			});
+
+			alm.fetch();
 		});
 
 		it('should return an array of sources with more detailed altmetric data for the article', function(done) {
@@ -69,24 +73,37 @@ describe('ALM', function() {
 				'update_date'
 			];
 
-			alm.getAlm('10.1371/journal.pbio.1000242', function(err, result) {
+			var alm = new Alm('10.1371/journal.pbio.1000242');
+
+			alm.on('success', function(result) {
 				expect(result).to.have.deep.property('sources').that.is.a('object');
 				expect(result).to.have.deep.property('sources.twitter').that.include.keys(expectedKeys);
 				expect(result).to.have.deep.property('sources.twitter.metrics').to.be.a('object');
 
 				done();
 			});
+
+			alm.fetch();
 		});
+
+	});
+
+	describe('Fetch with options', function() {
+		this.timeout(10000);
 
 		it('should take an object of options as the second argument', function(done) {
 			var options = {
 				info: 'summary'
 			};
 
-			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
+			var alm = new Alm('10.1371/journal.pbio.1000242', options);
+
+			alm.on('success', function(result) {
 				expect(result).to.exist;
 				done();
 			});
+
+			alm.fetch();
 		});
 
 		it('should have an option for requesting history of altmetrics', function(done) {
@@ -94,13 +111,18 @@ describe('ALM', function() {
 				info: 'history'
 			};
 
-			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
+			var alm = new Alm('10.1371/journal.pbio.1000242', options);
+
+			alm.on('success', function(result) {
 				expect(result).to.have.deep.property('sources.twitter.histories');
 				expect(result).to.have.deep.property('sources.twitter.by_day');
 				expect(result).to.have.deep.property('sources.twitter.by_month');
 				expect(result).to.have.deep.property('sources.twitter.by_year');
+
 				done();
 			});
+
+			alm.fetch();
 		});
 
 		it('should have an option for requesting altmetric events', function(done) {
@@ -108,76 +130,97 @@ describe('ALM', function() {
 				info: 'event'
 			};
 
-			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
+			var alm = new Alm('10.1371/journal.pbio.1000242', options);
+
+			alm.on('success', function(result) {
 				expect(result).to.have.deep.property('sources.twitter.events').that.is.a('array');
+
 				done();
 			});
+
+			alm.fetch();
 		});
 
 		it('should have an option for setting days (after publication) option', function(done) {
 			var options = {
-				days: '30',
+				days: '1700',
 				info: 'history'
 			};
 
-			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
-				expect(result).to.have.deep.property('sources.citeulike.histories').that.is.a('array');
-				expect(result).to.have.deep.property('sources.citeulike.histories').to.have.length(2);
+			var alm = new Alm('10.1371/journal.pbio.1000242', options);
+
+			alm.on('success', function(result) {
+				expect(result).to.have.deep.property('sources.twitter.histories').that.is.a('array');
+				expect(result).to.have.deep.property('sources.twitter.histories').to.have.length(3);
+
 				done();
 			});
+
+			alm.fetch();
 		});
 
 		it('should have an option for setting months (after publication) option', function(done) {
 			var options = {
-				months: 2,
+				months: 60,
 				info: 'history'
 			};
 
-			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
-				expect(result).to.have.deep.property('sources.citeulike.histories').that.is.a('array');
-				expect(result).to.have.deep.property('sources.citeulike.histories').to.have.length(2);
+			var alm = new Alm('10.1371/journal.pbio.1000242', options);
+
+			alm.on('success', function(result) {
+				expect(result).to.have.deep.property('sources.twitter.histories').that.is.a('array');
+				expect(result).to.have.deep.property('sources.twitter.histories').to.have.length(3);
+
 				done();
 			});
+
+			alm.fetch();
 		});
 
 		it('should have an option for setting specific year to calculate metrics', function(done) {
 			var options = {
-				year: 2010,
+				year: 2014,
 				info: 'history'
 			};
 
-			alm.getAlm('10.1371/journal.pbio.1000242', options, function(err, result) {
+			var alm = new Alm('10.1371/journal.pbio.1000242', options);
+
+			alm.on('success', function(result) {
 				expect(result).to.have.deep.property('sources.citeulike.histories').that.is.a('array');
-				expect(result).to.have.deep.property('sources.citeulike.histories').to.have.length(14);
+				expect(result).to.have.deep.property('sources.citeulike.histories').to.have.length(1);
+
 				done();
 			});
+
+			alm.fetch();
 		});
 	});
 
-	describe('#getAlm() error handling', function() {
+	describe('Error handling', function() {
 		this.timeout(10000);
 
 		it('should return error if DOI not provided', function(done) {
-			alm.getAlm('should_return_an_error', function(err, result) {
-				expect(result).to.not.exist;
+			var alm = new Alm('should return an error');
+
+			alm.on('error', function(err) {
 				expect(err).to.exist;
 
 				done();
 			});
+
+			alm.fetch();
 		});
 
 		it('should return useful error response if DOI not provided', function(done) {
-			alm.getAlm('should_return_an_error', function(err, result) {
-				var expected = {
-					statusCode: 404,
-					statusResponse: 'Article not found.',
-					body: { error: 'Article not found.' }
-				};
+			var alm = new Alm('should return an error');
 
-				expect(err).to.deep.equal(expected);
+			alm.on('error', function(err) {
+				expect(err.message).to.deep.equal('No article found');
 
 				done();
 			});
+
+			alm.fetch();
 		});
 	});
 });
