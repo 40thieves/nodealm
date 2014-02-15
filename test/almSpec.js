@@ -194,6 +194,33 @@ describe('ALM', function() {
 
 			alm.fetch();
 		});
+
+		it('should disable expansion of source array', function(done) {
+			var options = {
+				expand_sources: true
+			};
+
+			var expectedKeys = [
+				'name',
+				'display_name',
+				'events_url',
+				'metrics',
+				'update_date'
+			];
+
+			var alm = new Alm('10.1371/journal.pbio.1000242', options);
+
+			alm.on('success', function(result) {
+				expect(result).to.have.deep.property('[0].sources').that.is.a('array');
+				expect(result).to.have.deep.property('[0].sources[10]').that.include.keys(expectedKeys);
+				expect(result).to.have.deep.property('[0].sources[10].metrics').to.be.a('object');
+				expect(result).to.have.deep.property('[0].sources[10].name').to.equal('twitter');
+
+				done();
+			});
+
+			alm.fetch();
+		});
 	});
 
 	describe('Error handling', function() {
