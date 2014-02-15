@@ -197,7 +197,7 @@ describe('ALM', function() {
 
 		it('should disable expansion of source array', function(done) {
 			var options = {
-				expand_sources: true
+				expand_sources: false
 			};
 
 			var expectedKeys = [
