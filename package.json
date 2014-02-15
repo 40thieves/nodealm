@@ -1,6 +1,6 @@
 {
   "name": "nodealm",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Wrapper for the Public Library of Science (PLOS) Article Level Metrics (ALM) API",
   "main": "app.js",
   "directories": {
