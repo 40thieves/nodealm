@@ -82,13 +82,13 @@ result = {
 
 ### Advanced usage
 
-Multiple articles can be requested by providing and array of DOIs
+Multiple articles can be requested by providing an array of DOIs.
 
 ```javascript
 var alm = new Alm(['10.1371/journal.pbio.1000242', '10.1371/journal.pone.0035869']);
 ```
 
-Additional options are provided through the options object
+Additional options are provided through the options object.
 
 ```javascript
 var options = {
@@ -103,7 +103,7 @@ alm.getAlm('10.1371/journal.pbio.1000242', options, callback);
 
 __info__
 
-Controls the amount of detail provided in the response
+Controls the amount of detail provided in the response.
 
 | Value    | Description                                                        |
 | -------- | ------------------------------------------------------------------ |
@@ -118,7 +118,7 @@ Filter the list of sources returned in response. A list of sources is available 
 
 __days__
 
-Shows metrics after a given time in days of publication. So, for example, if set to 30, the metrics in the response will be calculated at the time 30 days after the article was published.
+Shows metrics after a given time of publication in days. So, for example, if set to 30, the metrics in the response will be calculated at the time 30 days after the article was published.
 
 __months__
 
